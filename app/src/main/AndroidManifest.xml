@@ -50,6 +50,10 @@
             android:name=".AddEditVGAActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".RevenueStatisticsActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

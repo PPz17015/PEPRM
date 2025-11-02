@@ -26,6 +26,14 @@
             android:text="Thêm VGA" />
 
         <Button
+            android:id="@+id/btnRevenue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thống kê"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_marginStart="8dp" />
+
+        <Button
             android:id="@+id/btnLogout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

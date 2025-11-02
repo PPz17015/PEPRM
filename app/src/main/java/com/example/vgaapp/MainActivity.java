@@ -40,6 +40,15 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        // Load saved credentials if Remember Password was checked
+        String savedEmail = prefsHelper.getSavedEmail();
+        String savedPassword = prefsHelper.getSavedPassword();
+        if (!savedEmail.isEmpty() && !savedPassword.isEmpty()) {
+            binding.etEmail.setText(savedEmail);
+            binding.etPassword.setText(savedPassword);
+            binding.checkRememberPassword.setChecked(true);
+        }
+
         binding.btnLogin.setOnClickListener(v -> {
             String email = binding.etEmail.getText().toString().trim();
             String password = binding.etPassword.getText().toString().trim();
@@ -55,6 +64,15 @@ public class MainActivity extends AppCompatActivity {
                 if (user != null) {
                     prefsHelper.saveUserId(user.id);
                     prefsHelper.saveUserRole(user.role.name());
+                    
+                    // Handle Remember Password
+                    if (binding.checkRememberPassword.isChecked()) {
+                        prefsHelper.saveEmail(email);
+                        prefsHelper.savePassword(password);
+                    } else {
+                        prefsHelper.clearSavedCredentials();
+                    }
+                    
                     Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
 
                     if (user.role == UserRole.SELLER) {

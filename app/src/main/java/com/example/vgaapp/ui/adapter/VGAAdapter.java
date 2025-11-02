@@ -43,8 +43,20 @@ public class VGAAdapter extends RecyclerView.Adapter<VGAAdapter.VGAViewHolder> {
         holder.textPrice.setText(String.valueOf((long) vga.price) + " VNĐ");
         holder.textBrand.setText(vga.brand.name());
 
-        if (vga.imagePath != null && !vga.imagePath.isEmpty() && new File(vga.imagePath).exists()) {
-            // Load image here if needed
+        if (vga.imagePath != null && !vga.imagePath.isEmpty()) {
+            File imageFile = new File(vga.imagePath);
+            if (imageFile.exists()) {
+                android.graphics.Bitmap bitmap = android.graphics.BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+                if (bitmap != null) {
+                    holder.imageView.setImageBitmap(bitmap);
+                } else {
+                    holder.imageView.setImageResource(android.R.color.darker_gray);
+                }
+            } else {
+                holder.imageView.setImageResource(android.R.color.darker_gray);
+            }
+        } else {
+            holder.imageView.setImageResource(android.R.color.darker_gray);
         }
 
         holder.itemView.setOnClickListener(v -> {

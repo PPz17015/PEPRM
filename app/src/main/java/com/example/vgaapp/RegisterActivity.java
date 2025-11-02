@@ -36,6 +36,12 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
+            // Validate email format
+            if (!isValidEmail(email)) {
+                Toast.makeText(this, "Email không đúng định dạng", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             if (!password.equals(confirmPassword)) {
                 Toast.makeText(this, "Mật khẩu không khớp", Toast.LENGTH_SHORT).show();
                 return;
@@ -54,5 +60,9 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(this, "Đăng ký thất bại", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private boolean isValidEmail(String email) {
+        return email != null && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 }

@@ -69,8 +69,20 @@ public class VGADetailActivity extends AppCompatActivity {
             binding.textPrice.setText(String.valueOf((long) vga.price) + " VNĐ");
             binding.textQuantity.setText("Số lượng còn lại: " + vga.quantity);
 
-            if (vga.imagePath != null && !vga.imagePath.isEmpty() && new File(vga.imagePath).exists()) {
-                // Load image here if needed
+            if (vga.imagePath != null && !vga.imagePath.isEmpty()) {
+                File imageFile = new File(vga.imagePath);
+                if (imageFile.exists()) {
+                    android.graphics.Bitmap bitmap = android.graphics.BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+                    if (bitmap != null) {
+                        binding.imageViewVGA.setImageBitmap(bitmap);
+                    } else {
+                        binding.imageViewVGA.setImageResource(android.R.color.darker_gray);
+                    }
+                } else {
+                    binding.imageViewVGA.setImageResource(android.R.color.darker_gray);
+                }
+            } else {
+                binding.imageViewVGA.setImageResource(android.R.color.darker_gray);
             }
         } else {
             Toast.makeText(this, "Không tìm thấy VGA", Toast.LENGTH_SHORT).show();

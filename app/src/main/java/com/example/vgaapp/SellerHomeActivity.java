@@ -48,6 +48,10 @@ public class SellerHomeActivity extends AppCompatActivity {
             startActivity(new Intent(this, AddEditVGAActivity.class));
         });
 
+        binding.btnRevenue.setOnClickListener(v -> {
+            startActivity(new Intent(this, RevenueStatisticsActivity.class));
+        });
+
         binding.btnLogout.setOnClickListener(v -> {
             prefsHelper.clearUserData();
             startActivity(new Intent(this, MainActivity.class));

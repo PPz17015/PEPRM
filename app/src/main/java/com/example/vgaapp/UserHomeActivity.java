@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -16,6 +17,7 @@ import com.example.vgaapp.ui.adapter.VGAAdapter;
 import com.example.vgaapp.util.SharedPreferencesHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserHomeActivity extends AppCompatActivity {
     private ActivityUserHomeBinding binding;
@@ -26,6 +28,7 @@ public class UserHomeActivity extends AppCompatActivity {
     private SharedPreferencesHelper prefsHelper;
     private VGAAdapter vgaAdapter;
     private long currentUserId = -1;
+    private List<VGADAO.VGAData> allVGAList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,61 @@ public class UserHomeActivity extends AppCompatActivity {
         setupRecyclerView();
         loadVGA();
 
+        // Search functionality
+        binding.etSearch.addTextChangedListener(new android.text.TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(android.text.Editable s) {
+                String query = s.toString().trim();
+                if (query.isEmpty()) {
+                    loadVGA();
+                } else {
+                    List<VGADAO.VGAData> searchResults = vgaDAO.searchVGAByName(query);
+                    vgaAdapter.updateList(searchResults);
+                }
+            }
+        });
+
+        // Sort functionality
+        binding.btnSort.setOnClickListener(v -> {
+            String[] sortOptions = {"Giá tăng dần", "Giá giảm dần", "Bỏ sắp xếp"};
+            new AlertDialog.Builder(this)
+                    .setTitle("Sắp xếp sản phẩm")
+                    .setItems(sortOptions, (dialog, which) -> {
+                        String searchQuery = binding.etSearch.getText().toString().trim();
+                        List<VGADAO.VGAData> listToSort;
+                        
+                        if (!searchQuery.isEmpty()) {
+                            listToSort = vgaDAO.searchVGAByName(searchQuery);
+                        } else {
+                            listToSort = allVGAList;
+                        }
+                        
+                        switch (which) {
+                            case 0: // Ascending
+                                listToSort.sort((v1, v2) -> Double.compare(v1.price, v2.price));
+                                break;
+                            case 1: // Descending
+                                listToSort.sort((v1, v2) -> Double.compare(v2.price, v1.price));
+                                break;
+                            case 2: // Reset
+                                if (searchQuery.isEmpty()) {
+                                    loadVGA();
+                                } else {
+                                    listToSort = vgaDAO.searchVGAByName(searchQuery);
+                                }
+                                break;
+                        }
+                        vgaAdapter.updateList(listToSort);
+                    })
+                    .show();
+        });
+
         binding.btnCart.setOnClickListener(v -> {
             startActivity(new Intent(this, CartActivity.class));
         });
@@ -71,7 +129,8 @@ public class UserHomeActivity extends AppCompatActivity {
     }
 
     private void loadVGA() {
-        vgaAdapter.updateList(vgaDAO.getAllVGA());
+        allVGAList = vgaDAO.getAllVGA();
+        vgaAdapter.updateList(allVGAList);
     }
 
     @Override

@@ -33,4 +33,24 @@ public class SharedPreferencesHelper {
     public boolean isLoggedIn() {
         return getUserId() != -1L;
     }
+
+    public void saveEmail(String email) {
+        prefs.edit().putString("SAVED_EMAIL", email).apply();
+    }
+
+    public String getSavedEmail() {
+        return prefs.getString("SAVED_EMAIL", "");
+    }
+
+    public void savePassword(String password) {
+        prefs.edit().putString("SAVED_PASSWORD", password).apply();
+    }
+
+    public String getSavedPassword() {
+        return prefs.getString("SAVED_PASSWORD", "");
+    }
+
+    public void clearSavedCredentials() {
+        prefs.edit().remove("SAVED_EMAIL").remove("SAVED_PASSWORD").apply();
+    }
 }

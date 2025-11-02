@@ -102,6 +102,16 @@
             android:text="Chọn ảnh"
             android:layout_marginBottom="8dp" />
 
+        <ImageView
+            android:id="@+id/imageViewPreview"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:background="@android:color/darker_gray"
+            android:contentDescription="VGA Image Preview"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/textImagePath"
             android:layout_width="match_parent"

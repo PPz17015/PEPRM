@@ -116,6 +116,53 @@ public class VGADAO {
         return vgaList;
     }
 
+    public List<VGAData> searchVGAByName(String searchQuery) {
+        Cursor cursor = db.query(
+                DatabaseHelper.TABLE_VGA,
+                null,
+                DatabaseHelper.COL_VGA_NAME + " LIKE ?",
+                new String[]{"%" + searchQuery + "%"},
+                null, null, null
+        );
+        List<VGAData> vgaList = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            vgaList.add(new VGAData(
+                    cursor.getLong(cursor.getColumnIndex(DatabaseHelper.COL_VGA_ID)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_VGA_NAME)),
+                    Brand.valueOf(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_VGA_BRAND))),
+                    Condition.valueOf(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_VGA_CONDITION))),
+                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_VGA_DESCRIPTION)),
+                    cursor.getDouble(cursor.getColumnIndex(DatabaseHelper.COL_VGA_PRICE)),
+                    cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_VGA_QUANTITY)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_VGA_IMAGE_PATH)),
+                    cursor.getLong(cursor.getColumnIndex(DatabaseHelper.COL_VGA_SELLER_ID))
+            ));
+        }
+        cursor.close();
+        return vgaList;
+    }
+
+    public List<VGAData> getAllVGASortedByPrice(boolean ascending) {
+        String orderBy = DatabaseHelper.COL_VGA_PRICE + (ascending ? " ASC" : " DESC");
+        Cursor cursor = db.query(DatabaseHelper.TABLE_VGA, null, null, null, null, null, orderBy);
+        List<VGAData> vgaList = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            vgaList.add(new VGAData(
+                    cursor.getLong(cursor.getColumnIndex(DatabaseHelper.COL_VGA_ID)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_VGA_NAME)),
+                    Brand.valueOf(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_VGA_BRAND))),
+                    Condition.valueOf(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_VGA_CONDITION))),
+                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_VGA_DESCRIPTION)),
+                    cursor.getDouble(cursor.getColumnIndex(DatabaseHelper.COL_VGA_PRICE)),
+                    cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COL_VGA_QUANTITY)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.COL_VGA_IMAGE_PATH)),
+                    cursor.getLong(cursor.getColumnIndex(DatabaseHelper.COL_VGA_SELLER_ID))
+            ));
+        }
+        cursor.close();
+        return vgaList;
+    }
+
     public long insertVGA(VGAData vga) {
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.COL_VGA_NAME, vga.name);

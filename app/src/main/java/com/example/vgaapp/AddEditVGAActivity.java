@@ -99,6 +99,14 @@ public class AddEditVGAActivity extends AppCompatActivity {
 
                     imagePath = file.getAbsolutePath();
                     binding.textImagePath.setText("Đã chọn ảnh: " + file.getName());
+                    
+                    // Show preview
+                    android.graphics.Bitmap bitmap = android.graphics.BitmapFactory.decodeFile(imagePath);
+                    if (bitmap != null) {
+                        binding.imageViewPreview.setImageBitmap(bitmap);
+                        binding.imageViewPreview.setVisibility(android.view.View.VISIBLE);
+                    }
+                    
                     Toast.makeText(this, "Đã chọn ảnh", Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
                     Toast.makeText(this, "Lỗi khi lưu ảnh: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -119,6 +127,16 @@ public class AddEditVGAActivity extends AppCompatActivity {
             imagePath = vga.imagePath;
             if (imagePath != null && !imagePath.isEmpty()) {
                 binding.textImagePath.setText("Ảnh: " + new File(imagePath).getName());
+                
+                // Show preview if editing
+                File imageFile = new File(imagePath);
+                if (imageFile.exists()) {
+                    android.graphics.Bitmap bitmap = android.graphics.BitmapFactory.decodeFile(imagePath);
+                    if (bitmap != null) {
+                        binding.imageViewPreview.setImageBitmap(bitmap);
+                        binding.imageViewPreview.setVisibility(android.view.View.VISIBLE);
+                    }
+                }
             }
         }
     }

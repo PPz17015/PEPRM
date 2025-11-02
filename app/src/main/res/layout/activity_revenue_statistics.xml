@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thống kê doanh thu"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="32dp" />
+
+    <TextView
+        android:id="@+id/textRevenue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tổng doanh thu: 0 VNĐ"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:padding="16dp"
+        android:background="?attr/selectableItemBackground"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/textFilterInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tất cả thời gian"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_marginBottom="32dp" />
+
+    <Button
+        android:id="@+id/btnFilterDay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lọc theo ngày"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/btnFilterMonth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lọc theo tháng"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/btnFilterYear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lọc theo năm"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/btnShowAll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hiển thị tất cả"
+        style="@style/Widget.Material3.Button.OutlinedButton" />
+
+</LinearLayout>
+

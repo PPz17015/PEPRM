@@ -3,6 +3,7 @@ package com.example.vgaapp.ui.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.vgaapp.R;
 import com.example.vgaapp.data.dao.VGADAO;
 
+import java.io.File;
 import java.util.List;
 
 public class SellerVGAAdapter extends RecyclerView.Adapter<SellerVGAAdapter.SellerVGAViewHolder> {
@@ -42,6 +44,23 @@ public class SellerVGAAdapter extends RecyclerView.Adapter<SellerVGAAdapter.Sell
         holder.textPrice.setText(String.valueOf((long) vga.price) + " VNĐ");
         holder.textQuantity.setText("Số lượng: " + vga.quantity);
 
+        // Load image
+        if (vga.imagePath != null && !vga.imagePath.isEmpty()) {
+            File imageFile = new File(vga.imagePath);
+            if (imageFile.exists()) {
+                android.graphics.Bitmap bitmap = android.graphics.BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+                if (bitmap != null) {
+                    holder.imageView.setImageBitmap(bitmap);
+                } else {
+                    holder.imageView.setImageResource(android.R.color.darker_gray);
+                }
+            } else {
+                holder.imageView.setImageResource(android.R.color.darker_gray);
+            }
+        } else {
+            holder.imageView.setImageResource(android.R.color.darker_gray);
+        }
+
         holder.btnEdit.setOnClickListener(v -> {
             if (onItemActionListener != null) {
                 onItemActionListener.onItemAction(vga, "edit");
@@ -66,6 +85,7 @@ public class SellerVGAAdapter extends RecyclerView.Adapter<SellerVGAAdapter.Sell
     }
 
     static class SellerVGAViewHolder extends RecyclerView.ViewHolder {
+        ImageView imageView;
         TextView textName;
         TextView textBrand;
         TextView textPrice;
@@ -75,6 +95,7 @@ public class SellerVGAAdapter extends RecyclerView.Adapter<SellerVGAAdapter.Sell
 
         SellerVGAViewHolder(@NonNull View itemView) {
             super(itemView);
+            imageView = itemView.findViewById(R.id.imageViewSellerVGA);
             textName = itemView.findViewById(R.id.textSellerVGAName);
             textBrand = itemView.findViewById(R.id.textSellerVGABrand);
             textPrice = itemView.findViewById(R.id.textSellerVGAPrice);
